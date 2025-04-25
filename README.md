@@ -136,12 +136,20 @@ Each question is designed to simulate a real-world business scenario. The sectio
 
 ---
 
-##  Next Steps
+### 🔜 Next Steps
 
-- Build visual dashboards using Power BI or Metabase
-- Explore triggers and stored procedures for automation
-- Simulate user access roles and security practices
-- Push data via API endpoints for integration testing
+- **Deepen knowledge on stored procedures and triggers**  
+  → I plan to learn more about automating tasks (e.g., updating balances, triggering notifications) to optimize database performance. Right now, my understanding is at a basic level.
+
+- **Explore API integration**  
+  → Eventually, I’ll connect my database to a frontend or external services, but I’m still learning APIs, so this is for future enhancement.
+
+- **Advanced query optimization**  
+  → I aim to further optimize complex queries for performance, focusing on techniques such as query profiling and execution plans.
+
+- **User roles & security enhancements**  
+  → Implement more granular access controls and security measures to ensure different user roles (e.g., customers, employees) have appropriate permissions.
+
 
 ---
 

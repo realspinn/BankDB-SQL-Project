@@ -148,7 +148,7 @@ SELECT
 	a.balance,
 CASE
 	WHEN a.account_type = 'Savings' AND a.balance > 10000 THEN 'Big savings'
-	WHEN a.account_type = 'Savings' AND a.balance <= 10000 THEN 'Big savings'
+	WHEN a.account_type = 'Savings' AND a.balance <= 10000 THEN 'Small savings'
 	ELSE 'No Savings'
 END AS Customers_Savings
 FROM loans l

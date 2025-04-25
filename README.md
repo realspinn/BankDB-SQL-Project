@@ -62,58 +62,121 @@ The following **unclustered indexes** were created to optimize query performance
 
 ---
 
-## Strategic Analyst Questions
+## Strategic Analyst Questions (With Why & How)
 
-Each question is designed to simulate a real-world business scenario. The section includes **Why** the question is important and **How** it is approached using SQL.
-
-### 1. Who are the top 10 highest net worth customers?
-
-**Why:** To identify high-value clients for premium banking services.  
-**How:** Aggregate total balances from `Accounts`, group by customer, and join with `Customers`.
+This section lists the **core business problems** we’re solving using SQL — as a Strategic Analyst would — along with **why they matter** and **how** we derive answers using the BankDB schema.
 
 ---
 
-### 2. What customer segments are associated with the highest loan defaults?
+### 1. Customer-Based Insights
 
-**Why:** To assess and reduce credit risk.  
-**How:** Filter `Loans` where `status = 'Defaulted'`, join with `Customers` for demographic analysis.
+**Why?**  
+To better understand customer behavior and their financial profiles.
 
----
+**How?**  
+By analyzing data across `Customers`, `Accounts`, and `Loans` tables.
 
-### 3. Which branches or employees manage the most accounts?
+- **Which type of customers hold the highest balances?**  
+  → Group by age/address/DOB and aggregate balances per customer.
 
-**Why:** For staffing and resource allocation decisions.  
-**How:** Join `Employees` and `Accounts`, group by `branch` or `employee_id`, and count.
+- **Are older customers more reliable with loan repayments?**  
+  → Compare age of customers with their loan `status` (Repaid vs Defaulted).
 
----
-
-### 4. How many accounts have been frozen or closed in the past 6 months?
-
-**Why:** To monitor churn and account issues.  
-**How:** Query `Accounts` where `status` IN ('Frozen', 'Closed') and use date filter on `created_at`.
+- **Do people with multiple accounts behave differently?**  
+  → Count how many accounts each customer holds and analyze total balances or loan presence.
 
 ---
 
-### 5. What’s the total projected monthly interest income from active loans?
+### 2. Account-Based Analysis
 
-**Why:** To predict monthly revenue flow.  
-**How:** Calculate interest (`loan_amount * interest_rate`) for `Active` loans and group by month.
+**Why?**  
+To optimize account offerings and identify user patterns.
+
+**How?**  
+By querying the `Accounts` and `Transactions` tables.
+
+- **Which account type holds the most money overall?**  
+  → Group by `account_type`, sum balances.
+
+- **How many accounts are Active, Frozen, or Closed?**  
+  → Count `status` groups and investigate reasons for frozen/closed accounts.
+
+- **What’s the average time between account creation and first transaction?**  
+  → Compare `created_at` in `Accounts` with earliest `transaction_date`.
+
+---
+
+### 3. Transaction-Based Analysis
+
+**Why?**  
+To monitor money movement, flag inactivity, and detect anomalies.
+
+**How?**  
+Through queries on the `Transactions` table with grouping and filtering logic.
+
+- **What’s the most common transaction type?**  
+  → Count of `transaction_type`.
+
+- **Are some accounts inactive?**  
+  → Identify accounts with no transactions over a period.
+
+- **Do some accounts show high daily volume (potential fraud)?**  
+  → Group by `account_id` and `transaction_date`, count rows per day.
 
 ---
 
-### 6. What transaction types are most common, and in which periods?
+### 4. Loan-Based Evaluation
 
-**Why:** To understand customer behavior and improve banking features.  
-**How:** Group by `transaction_type` and time window (`DATE_TRUNC('month', transaction_date)`).
+**Why?**  
+To manage risk, reduce defaults, and understand loan performance.
+
+**How?**  
+By joining `Loans`, `Customers`, and `Accounts`.
+
+- **Which loan type has the highest default rate?**  
+  → Group by `loan_type` and compare `status`.
+
+- **Does higher interest rate lead to more defaults or better repayment?**  
+  → Analyze `interest_rate` against `status`.
+
+- **Are loan-takers also big savers?**  
+  → Join `Loans` with `Accounts` by `customer_id` and compare balances.
 
 ---
 
-### 7. Which accounts have unusually high transaction frequencies?
+### 5. Employee/Branch Performance (Future Scope)
 
-**Why:** For fraud detection or to identify power users.  
-**How:** Count transactions per `account_id`, order by frequency, and compare with average activity.
+**Why?**  
+To evaluate employee contributions and branch impact.
+
+**How?**  
+Once `employee_id` is added as FK to `Accounts` or `Loans`.
+
+- **Which employees opened the most accounts/loans?**  
+  → Count by `employee_id`.
+
+- **Which branches bring in high-balance customers?**  
+  → Group balances by `branch`.
 
 ---
+
+## Performance Optimization
+
+- **Indexes Used:**  
+  Non-clustered indexes created on high-usage columns like `customer_id`, `account_id`, `loan_id`, and `transaction_date` for faster JOINs and WHERE clauses.
+
+- **Why Indexing?**  
+  To ensure high-speed queries on a large 60k dataset and reduce table scan time.
+
+---
+
+## What I Learned
+
+- Real-world database design and optimization strategies  
+- Writing scalable SQL queries for business intelligence  
+- Importance of indexes in query performance  
+- Customer segmentation and risk analysis from a banking lens
+
 
 ## File Structure
 
@@ -149,8 +212,7 @@ Each question is designed to simulate a real-world business scenario. The sectio
 
 - **User roles & security enhancements**  
   → Implement more granular access controls and security measures to ensure different user roles (e.g., customers, employees) have appropriate permissions.
-
-
+  
 ---
 
 ##  Contact
@@ -158,3 +220,9 @@ Each question is designed to simulate a real-world business scenario. The sectio
 **Israel Adeleye**  
 SQL Developer | Aspiring DBA | Strategic Data Analyst  
 [LinkedIn](https://www.linkedin.com/in/israel-adeleye-a466b5357/)
+
+
+
+
+
+
